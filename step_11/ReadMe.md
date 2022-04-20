@@ -46,14 +46,16 @@ scenarios, pipelines, datanodes that you have maybe created in the previous step
 # Delete all entities
 Config.configure_global_app(clean_entities_enabled=True)
 tp.clean_all_entities()
-scenario_selector = []
 ```
 
 To clarify this concept of primary scenario, the scenario selector will show a `*` before its name if the scenario 
 is primary. This is why we update the following function.
 
 ```python
-# Redefine update_scenario_selector to add "*" in the display name when the scenario is primary
+# Change the inital scenario selector to see which scenarios are primary
+scenario_selector = [(scenario.id, ("*" if scenario.is_primary else "") + scenario.name) for scenario in tp.get_scenarios()]
+
+# Redefine update_scenario_selector to add "*" in the display name when the scnario is primary
 def update_scenario_selector(state, scenario):
     print("Updating scenario selector...")
     # Create the scenario name for the scenario selector
